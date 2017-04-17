@@ -3,19 +3,24 @@
 # Simple wrapper for minikube cli
 
 run() {
-	if [[ -z "${1// }" ]]
-  then
-		echo "Usage: mk minikube_command|start|k8s|docker|dash|toolbox|get|xhyve"
-		else
-		minikube $@
-	fi
+    if [[ -z "${1// }" ]]
+    then
+       echo "Usage: mk minikube_command|start|mount|k8s|docker|dash|toolbox|get|xhyve"
+    else
+       minikube $@
+    fi
 }
 
 start() {
   minikube start \
+    --disk-size=40g \
     --vm-driver=xhyve \
     --network-plugin=cni \
     --container-runtime=docker
+}
+
+mount() {
+  minikube mount ${HOME}
 }
 
 k8s() {
@@ -41,45 +46,47 @@ get() {
   cd ~/tmp
   LATEST_MINIKUBE=$(curl -s https://api.github.com/repos/kubernetes/minikube/releases/latest | grep "tag_name" | awk '{print $2}' | sed -e 's/"\(.*\)"./\1/')
 
-  echo "$LATEST_MINIKUBE"
-
-  echo "Downloading latest ${LATEST_MINIKUBE} of minikube for macOS"
+  echo "Downloading latest minikube ${LATEST_MINIKUBE}"
   curl -Lo minikube https://storage.googleapis.com/minikube/releases/${LATEST_MINIKUBE}/minikube-darwin-amd64
   chmod +x minikube
   mv minikube ~/bin/
   echo " "
-  echo "Installed latest ${LATEST_MINIKUBE} of minikube to ~/bin ..."
+  echo "Installed latest ${LATEST_MINIKUBE} of minikube to '~/bin' ..."
 }
 
 xhyve() {
     brew install docker-machine-driver-xhyve
-		sudo chown root:wheel $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve
-		sudo chmod u+s $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve
+    sudo chown root:wheel $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve
+    sudo chmod u+s $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve
 }
 
 case "$1" in
         start)
                 start
                 ;;
+        mount)
+                mount
+                ;;
         k8s)
                 k8s
                 ;;
-				docker)
-	        			docker
-	        			;;
-				dash)
-	        			dash
-	        			;;
-				toolbox)
-								toolbox
-								;;
+        docker)
+                docker
+                ;;
+        dash)
+                dash
+                ;;
+        toolbox)
+                toolbox
+                ;;
         get)
                 get
                 ;;
-				xhyve)
-								xhyve
-								;;
-				$@)
-								run $@
-								;;
+        xhyve)
+                xhyve
+                ;;
+        $@)
+                run $@
+                ;;
+
 esac
