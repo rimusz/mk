@@ -4,9 +4,9 @@
 
 run() {
 	if [[ -z "${1// }" ]]
-	then
+  then
 		echo "Usage: mk minikube_command|start|k8s|docker|dash|toolbox|get|xhyve"
-	else
+		else
 		minikube $@
 	fi
 }
@@ -24,7 +24,7 @@ k8s() {
 
 docker() {
     eval $(minikube docker-env)
-		/bin/bash
+    /bin/bash
 }
 
 dash() {
@@ -65,11 +65,11 @@ case "$1" in
                 k8s
                 ;;
 				docker)
-				        docker
-				        ;;
+	        			docker
+	        			;;
 				dash)
-				        dash
-				        ;;
+	        			dash
+	        			;;
 				toolbox)
 								toolbox
 								;;
