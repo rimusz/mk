@@ -1,2 +1,3 @@
 # mk
-A simple wrapper for qinikube cli
+A simple wrapper script for [minikube](https://github.com/kubernetes/minikube) cli
+
