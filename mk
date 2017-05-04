@@ -5,18 +5,23 @@
 run() {
     if [[ -z "${1// }" ]]
     then
-       echo "Usage: mk minikube_command|start|mount|k8s|docker|dash|toolbox|get|xhyve"
+       echo "Usage: mk minikube_command|create|start|mount|k8s|docker|dash|toolbox|get|xhyve"
     else
        minikube $@
     fi
 }
 
-start() {
+create() {
   minikube start \
+    --v=4 \
     --disk-size=40g \
-    --vm-driver=xhyve \
-    --network-plugin=cni \
-    --container-runtime=docker
+    --vm-driver=xhyve 
+#    --network-plugin=cni \
+#    --container-runtime=docker
+}
+
+start() {
+  minikube start --v=4
 }
 
 mount() {
@@ -61,6 +66,9 @@ xhyve() {
 }
 
 case "$1" in
+        create)
+                create
+                ;;
         start)
                 start
                 ;;
