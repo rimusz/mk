@@ -5,19 +5,29 @@
 run() {
     if [[ -z "${1// }" ]]
     then
-       echo "Usage: mk minikube_command|create|start|mount|k8s|docker|dash|toolbox|get|xhyve"
+       echo "Usage: mk minikube_command|create|create-xhyve|start|mount|k8s|set-k8s|docker|dash|toolbox|get|get-xhyve"
     else
        minikube $@
     fi
 }
 
+create-xhyve() {
+  minikube start \
+    --v=4 \
+    --disk-size=50g \
+    --vm-driver=xhyve 
+    --network-plugin=cni \
+    --container-runtime=docker
+  minikube addons enable heapster
+}
+
 create() {
   minikube start \
     --v=4 \
-    --disk-size=40g \
-    --vm-driver=xhyve 
-#    --network-plugin=cni \
-#    --container-runtime=docker
+    --disk-size=50g \
+    --network-plugin=cni \
+    --container-runtime=docker
+  minikube addons enable heapster
 }
 
 start() {
@@ -30,6 +40,10 @@ mount() {
 
 k8s() {
     minikube get-k8s-versions
+}
+
+set-k8s() {
+    minikube config set kubernetes-version $2
 }
 
 docker() {
@@ -59,7 +73,7 @@ get() {
   echo "Installed latest ${LATEST_MINIKUBE} of minikube to '~/bin' ..."
 }
 
-xhyve() {
+get-xhyve() {
     brew install docker-machine-driver-xhyve
     sudo chown root:wheel $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve
     sudo chmod u+s $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve
@@ -69,6 +83,9 @@ case "$1" in
         create)
                 create
                 ;;
+        create-xhyve)
+                create-xhyve
+                ;;
         start)
                 start
                 ;;
@@ -77,6 +94,9 @@ case "$1" in
                 ;;
         k8s)
                 k8s
+                ;;
+        set-k8s)
+                set-k8s $@
                 ;;
         docker)
                 docker
@@ -90,8 +110,8 @@ case "$1" in
         get)
                 get
                 ;;
-        xhyve)
-                xhyve
+        get-xhyve)
+                get-xhyve
                 ;;
         $@)
                 run $@
