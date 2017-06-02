@@ -19,6 +19,7 @@ create-xhyve() {
     --network-plugin=cni \
     --container-runtime=docker
   minikube addons enable heapster
+  helm init
 }
 
 create() {
@@ -28,6 +29,7 @@ create() {
     --network-plugin=cni \
     --container-runtime=docker
   minikube addons enable heapster
+  helm init
 }
 
 start() {
