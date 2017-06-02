@@ -15,7 +15,7 @@ create-xhyve() {
   minikube start \
     --v=4 \
     --disk-size=50g \
-    --vm-driver=xhyve 
+    --vm-driver=xhyve \
     --network-plugin=cni \
     --container-runtime=docker
   minikube addons enable heapster
