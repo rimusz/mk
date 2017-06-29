@@ -81,6 +81,12 @@ get-xhyve() {
     sudo chmod u+s $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve
 }
 
+upgrade-xhyve() {
+    brew upgrade docker-machine-driver-xhyve
+    sudo chown root:wheel $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve
+    sudo chmod u+s $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve
+}
+
 case "$1" in
         create)
                 create
@@ -115,6 +121,10 @@ case "$1" in
         get-xhyve)
                 get-xhyve
                 ;;
+
+				upgrade-xhyve)
+				        upgrade-xhyve
+				        ;;
         $@)
                 run $@
                 ;;
