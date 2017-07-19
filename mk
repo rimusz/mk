@@ -95,8 +95,8 @@ case "$1" in
         create)
                 create
                 ;;
-        create-xhyve)
-                create-xhyve
+        create-vbox)
+                create-vbox
                 ;;
         start)
                 start
