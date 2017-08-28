@@ -5,7 +5,7 @@
 run() {
     if [[ -z "${1// }" ]]
     then
-       echo "Usage: mk minikube_command|create|create-xhyve|start|mount|k8s|set-k8s|docker|dash|toolbox|get|get-xhyve|upgrade-xhyve"
+       echo "Usage: mk minikube_command|create|create-vbox|start|mount|k8s|set-k8s|docker|dash|toolbox|get|get-xhyve|upgrade-xhyve"
     else
        minikube $@
     fi
